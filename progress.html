@@ -771,7 +771,7 @@
    ════════════════════════════════════════════════════════════ */
 const PROJECT = {
   name: "AI Agent Platform",
-  lastUpdated: "2026-03-12",
+  lastUpdated: "2026-03-20",
   team: "ITS – 3 Team Members",
   prototype: "Risk & Safety Department",
 
@@ -784,7 +784,7 @@ const PROJECT = {
       owner: "ITS Dev Team",
       icon: "🕸️",
       iconBg: "#FEF3E8",
-      summary: "Recursive HTML scraper and PDF extractor being actively built. Begins at a root URL, follows all internal hyperlinks, and extracts full textual content from each page and document.",
+      summary: "Recursive HTML scraper and PDF extractor undergoing refinement. Core functionality complete, now applying light iterations and modifications to improve robustness and performance. Begins at a root URL, follows all internal hyperlinks, and extracts full textual content from each page and document.",
       bullets: [
         "Crawls HTML pages recursively from a department root URL",
         "Detects and follows internal hyperlinks automatically",
@@ -813,20 +813,38 @@ const PROJECT = {
       tech: ["Ollama", "Qwen 3.5", "ChromaDB", "Python", "LangChain"]
     },
     {
+      id: "ollama-endpoint",
+      title: "Ollama Endpoint Configuration",
+      category: "Infrastructure",
+      status: "active",
+      owner: "ITS Dev Team + Serhii",
+      icon: "🔗",
+      iconBg: "#FEF3E8",
+      summary: "Configuring and stabilizing Ollama endpoint access on TRU infrastructure. Working actively with Serhii to resolve endpoint connectivity and ensure reliable model serving for the RAG pipeline.",
+      bullets: [
+        "Identifying correct Ollama endpoint URL on TRU infrastructure",
+        "Working with Serhii to troubleshoot connectivity and configuration",
+        "Ensuring stable model serving for Qwen 3.5 inference",
+        "Testing latency and throughput from frontend to inference",
+        "Documenting endpoint configuration for team reference"
+      ],
+      tech: ["Ollama", "TRU Infrastructure", "API Configuration"]
+    },
+    {
       id: "ui",
       title: "Chat Widget (User Interface)",
       category: "Frontend",
-      status: "active",
+      status: "done",
       owner: "ITS Dev Team",
       icon: "💬",
-      iconBg: "#FEF3E8",
-      summary: "An embeddable floating action button and chat panel being built for deployment on any TRU department webpage. Includes a feedback loop for user satisfaction.",
+      iconBg: "#EBF7F1",
+      summary: "Chat widget fully operational and deployed. Embeddable floating action button and chat panel with beautiful hyperlink display showing sources and data references. Ready for integration on any TRU department webpage with integrated feedback mechanism.",
       bullets: [
         "Floating action button (FAB) in bottom-right of webpage",
         "Expands into a full chat panel with message history",
+        "Displays hyperlinks to sources and data references beautifully",
         "Thumbs-up feedback for helpful responses",
-        "Thumbs-down and 'Report' button for incorrect or unsatisfactory answers",
-        "Designed to be embedded via a simple code snippet on any TRU page"
+        "Embeddable via simple code snippet on any TRU page"
       ],
       tech: ["HTML/CSS/JS", "Embeddable Widget", "REST API"]
     },
@@ -834,16 +852,16 @@ const PROJECT = {
       id: "auth",
       title: "TRU SSO Authentication",
       category: "Infrastructure",
-      status: "requested",
-      owner: "TRU DB / Auth Team",
+      status: "active",
+      owner: "ITS Dev Team + TRU Auth Team",
       icon: "🔐",
-      iconBg: "#EBF2FA",
-      summary: "Formal request submitted to TRU's authentication team to enable student and staff login using existing TRU credentials. Prototype uses mock authentication locally in the meantime.",
+      iconBg: "#FEF3E8",
+      summary: "TRU SSO integration work underway. Received detailed instructions from Vera (TRU Auth Team) and actively implementing authentication flow. Will enable student and staff login using existing TRU credentials with seamless integration.",
       bullets: [
-        "Request submitted to TRU auth/database management team",
+        "Received technical instructions from Vera at TRU Auth Team",
+        "Actively implementing authentication flow and integration points",
         "Will allow students and staff to log in with their TRU IDs",
-        "Local mock auth used during prototype development",
-        "Login flow is isolated for easy swap-in once credentials are granted"
+        "Login flow designed for easy integration with TRU SSO endpoints"
       ],
       tech: ["TRU SSO", "Oracle Auth"]
     },
@@ -887,17 +905,17 @@ const PROJECT = {
       id: "admin",
       title: "Admin Analytics Dashboard",
       category: "Admin Portal",
-      status: "planned",
+      status: "active",
       owner: "ITS Dev Team",
       icon: "📊",
-      iconBg: "#F2F2F6",
-      summary: "A visual dashboard for department administrators to monitor platform usage, track costs, and understand user behaviour patterns over time.",
+      iconBg: "#FEF3E8",
+      summary: "Admin analytics dashboard under active development. Building comprehensive UI for department administrators to monitor platform usage and track performance. Data storage layer and analytics pipeline will be implemented alongside UI development once core metrics are finalized.",
       bullets: [
-        "Total questions asked, total token/character count",
-        "Weekly, monthly, and semester-based usage breakdowns",
-        "Line charts for daily question volume trends",
-        "Estimated compute cost per session based on local GPU/CPU draw",
-        "Data foundation for university-wide cost projection and ROI analysis"
+        "Building responsive UI for dashboard views and visualizations",
+        "Planning analytics data model and schema for metrics collection",
+        "Will track total questions, token usage, and performance metrics",
+        "Weekly, monthly, and semester-based usage breakdowns planned",
+        "Foundation for cost projection and ROI analysis"
       ],
       tech: ["Chart.js", "Python Flask", "Oracle SQL"]
     },
