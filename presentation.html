@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRU AI Agent Platform — Project Update</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:        #00796B;
+      --teal-mid:    #009688;
+      --teal-light:  #4DB6AC;
+      --teal-pale:   #E0F2F1;
+      --teal-dim:    #B2DFDB;
+      --white:       #FFFFFF;
+      --off-white:   #F7FAF9;
+      --gray-100:    #F3F6F5;
+      --gray-200:    #E2E8E6;
+      --gray-400:    #8FA49F;
+      --gray-600:    #4A6160;
+      --gray-800:    #1C2E2A;
+      --dark:        #0D1A17;
+      --warn:        #E67E22;
+      --danger:      #C0392B;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ──────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 56px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── SECTIONS ─────────────────────────────────────────── */
+    section {
+      min-height: 100vh;
+      padding: 120px 0 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-inner {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+    section:nth-child(even) { background: var(--off-white); }
+
+    /* Teal left-border accent on every section */
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--teal-mid), var(--teal-light));
+    }
+
+    /* ── TYPOGRAPHY ───────────────────────────────────────── */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--dark);
+    }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+    }
+    h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 1rem;
+      color: var(--gray-600);
+      max-width: 70ch;
+      line-height: 1.75;
+    }
+    .lead {
+      font-size: 1.15rem;
+      color: var(--gray-800);
+      font-weight: 400;
+      max-width: 60ch;
+      line-height: 1.8;
+      margin-top: 1.25rem;
+    }
+
+    /* ── DIVIDER ──────────────────────────────────────────── */
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: var(--teal);
+      margin: 1.25rem 0;
+      border-radius: 2px;
+    }
+
+    /* ── SLIDE 1 · COVER ──────────────────────────────────── */
+    #cover {
+      background: var(--white);
+      justify-content: center;
+    }
+    #cover::after {
+      content: '';
+      position: absolute;
+      right: -80px; top: -80px;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: var(--teal-pale);
+      opacity: 0.6;
+      z-index: 0;
+    }
+    .cover-inner { position: relative; z-index: 1; }
+    .cover-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--teal-pale);
+      border: 1px solid var(--teal-dim);
+      color: var(--teal);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.9rem;
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .cover-tag span { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; animation: pulse 1.6s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
+
+    .cover-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+    .cover-title .accent { color: var(--teal); font-style: italic; }
+    .cover-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--gray-600);
+      margin: 1.25rem 0 2rem;
+      letter-spacing: 0.02em;
+    }
+    .cover-meta {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--gray-200);
+    }
+    .cover-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .cover-meta-item .label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal-light);
+    }
+    .cover-meta-item .value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-800);
+    }
+
+    /* ── SLIDE 2 · VISION ─────────────────────────────────── */
+    .vision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+    .vision-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 1.75rem;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .vision-card:hover { box-shadow: 0 8px 32px rgba(0,121,107,0.1); transform: translateY(-2px); }
+    .vision-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: var(--teal);
+      border-radius: 4px 4px 0 0;
+    }
+    .dept-tag {
+      display: inline-block;
+      background: var(--teal-pale);
+      color: var(--teal);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── SLIDE 3 · FEATURES ───────────────────────────────── */
+    .features-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .feature-item {
+      padding: 1.5rem;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: box-shadow 0.2s;
+    }
+    .feature-item:hover { box-shadow: 0 4px 20px rgba(0,121,107,0.08); }
+    .feature-icon {
+      width: 40px; height: 40px;
+      flex-shrink: 0;
+      background: var(--teal-pale);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    /* ── SLIDE 4 · PIPELINE ───────────────────────────────── */
+    #pipeline { background: var(--gray-100); }
+    .pipeline-img-wrap {
+      margin-top: 2rem;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+    }
+    .pipeline-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 2px;
+    }
+
+    /* ── SLIDE 5 · BOTTLENECKS ────────────────────────────── */
+    .bottleneck-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .bottleneck-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 1.5rem 1.5rem 1.5rem 1.25rem;
+      border-left: 4px solid var(--teal-light);
+      position: relative;
+    }
+    .bottleneck-card.warn { border-left-color: var(--warn); }
+    .bottleneck-card.warn .b-num { color: var(--warn); }
+    .b-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--teal-light);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .b-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 0.75rem;
+    }
+    .b-status.pending { color: var(--warn); }
+    .b-status.in-progress { color: var(--teal); }
+    .b-status.blocked { color: var(--danger); }
+    .b-status::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ── SLIDE 6 · CONCERNS ───────────────────────────────── */
+    .concern-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+    .concern-block {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 2rem;
+    }
+    .concern-block h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .concern-block h3 .icon {
+      font-size: 1.2rem;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      margin-bottom: 0.75rem;
+    }
+    .pill.discuss { background: #FEF9C3; color: #92400E; }
+    .pill.test    { background: var(--teal-pale); color: var(--teal); }
+
+    /* ── SLIDE 7 · NEXT STEPS ─────────────────────────────── */
+    .next-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+      max-width: 680px;
+    }
+    .next-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+    }
+    .next-item .n-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+      flex-shrink: 0;
+      padding-top: 0.15rem;
+      min-width: 1.6rem;
+    }
+    .next-item p { font-size: 0.95rem; max-width: none; }
+
+    /* ── SCROLL ANIMATIONS ────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── PROGRESS BAR ─────────────────────────────────────── */
+    #progress-bar {
+      position: fixed;
+      top: 56px; left: 0;
+      height: 2px;
+      background: var(--teal);
+      z-index: 101;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* ── SIDE DOTS ────────────────────────────────────────── */
+    #side-nav {
+      position: fixed;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      z-index: 99;
+    }
+    .side-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+      padding: 0;
+    }
+    .side-dot.active {
+      background: var(--teal);
+      transform: scale(1.4);
+    }
+    .side-dot:hover { background: var(--teal-light); }
+  </style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-inner">
+  <div class="nav-brand">TRU · AI Agent Platform</div>
+  <ul class="nav-links">
+    <li><a href="#cover">Overview</a></li>
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pipeline">Pipeline</a></li>
+    <li><a href="#bottlenecks">Bottlenecks</a></li>
+    <li><a href="#concerns">Open Questions</a></li>
+    <li><a href="#next">Next Steps</a></li>
+  </ul>
+  </div>
+</nav>
+
+<!-- Side navigation dots -->
+<div id="side-nav">
+  <button class="side-dot active" data-target="cover" title="Cover"></button>
+  <button class="side-dot" data-target="vision" title="Vision"></button>
+  <button class="side-dot" data-target="features" title="Features"></button>
+  <button class="side-dot" data-target="pipeline" title="Pipeline"></button>
+  <button class="side-dot" data-target="bottlenecks" title="Bottlenecks"></button>
+  <button class="side-dot" data-target="concerns" title="Open Questions"></button>
+  <button class="side-dot" data-target="next" title="Next Steps"></button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 1 · COVER
+════════════════════════════════════════════════════════ -->
+<section id="cover">
+  <div class="section-inner">
+  <div class="cover-inner">
+    <div class="cover-tag"><span></span> Project Update · March 2026</div>
+    <h1 class="cover-title">
+      TRU <span class="accent">AI Agent</span><br>Platform
+    </h1>
+    <p class="cover-subtitle">
+      Department-Focused AI Assistants · Thompson Rivers University
+    </p>
+    <div class="divider"></div>
+    <p style="max-width:56ch; font-size:1.05rem; color:var(--gray-600); line-height:1.8;">
+      Deploying context-aware, data-grounded AI agents across TRU's departmental web presence—
+      built on a locally-hosted RAG pipeline, with privacy and security at its core.
+    </p>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <span class="label">Institution</span>
+        <span class="value">Thompson Rivers University</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="label">Team</span>
+        <span class="value">AI Automation Team</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="label">Status</span>
+        <span class="value" style="color:var(--warn);">Under Development</span>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 2 · VISION
+════════════════════════════════════════════════════════ -->
+<section id="vision">
+  <div class="section-inner">
+  <div class="section-label reveal">02 — Vision</div>
+  <h2 class="reveal reveal-delay-1">One Agent Per Department.<br>Right Data. Right People.</h2>
+  <p class="lead reveal reveal-delay-2">
+    Rather than a single monolithic chatbot, we're deploying <strong>focused AI agents</strong> tailored
+    to each TRU department's own data — surfacing only what's relevant to the user's current context.
+  </p>
+  <div class="vision-grid">
+    <div class="vision-card reveal reveal-delay-1">
+      <div class="dept-tag">Risk &amp; Safety</div>
+      <h3>Departmental Agent</h3>
+      <p>An agent embedded in the Risk &amp; Safety website, trained exclusively on their policies, procedures, and FAQs — giving staff and students precise, department-specific answers.</p>
+    </div>
+    <div class="vision-card reveal reveal-delay-2">
+      <div class="dept-tag">TRU World</div>
+      <h3>International Agent</h3>
+      <p>Students visiting TRU World get an agent scoped to international student resources — admission, visas, housing — nothing extraneous, nothing out of scope.</p>
+    </div>
+    <div class="vision-card reveal reveal-delay-3">
+      <div class="dept-tag">Any Department</div>
+      <h3>Plug-and-Play Deployment</h3>
+      <p>Each department uploads their documents via a simple <strong>dropbox interface</strong> — PDFs, HTML pages, or any source material. We ingest those files to build the agent's knowledge base automatically. Same infrastructure, different data, same high-quality experience.</p>
+    </div>
+    <div class="vision-card reveal reveal-delay-4">
+      <div class="dept-tag">Future · Phase 2</div>
+      <h3>Super-Agent Orchestrator</h3>
+      <p>Once individual agents are validated and stable, a master orchestrator will route queries to the appropriate sub-agent — a single entry point across all of TRU.</p>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 3 · FEATURES WALKTHROUGH
+════════════════════════════════════════════════════════ -->
+<section id="features">
+  <div class="section-inner">
+  <div class="section-label reveal">03 — App Walkthrough</div>
+  <h2 class="reveal reveal-delay-1">What the Chat Widget Does</h2>
+  <p class="lead reveal reveal-delay-2">
+    A lightweight floating widget, embedded on any TRU web page, delivering a consistent and trustworthy experience for every user.
+  </p>
+  <div class="features-list">
+    <div class="feature-item reveal reveal-delay-1">
+      <div class="feature-icon">💬</div>
+      <div>
+        <h3>Floating Action Button</h3>
+        <p>Unobtrusive widget pinned to the bottom-right corner — always available, never in the way.</p>
+      </div>
+    </div>
+    <div class="feature-item reveal reveal-delay-2">
+      <div class="feature-icon">🔐</div>
+      <div>
+        <h3>Authentication Layer</h3>
+        <p>Agents handling sensitive or restricted data sit behind an SSO-based auth gate — only authorised personnel gain access.</p>
+      </div>
+    </div>
+    <div class="feature-item reveal reveal-delay-3">
+      <div class="feature-icon">❓</div>
+      <div>
+        <h3>FAQ Quick Starters</h3>
+        <p>Pre-populated FAQ chips on load — users can dive in immediately without typing a single character.</p>
+      </div>
+    </div>
+    <div class="feature-item reveal reveal-delay-4">
+      <div class="feature-icon">🔗</div>
+      <div>
+        <h3>Inline Citations</h3>
+        <p>Every response references its source with a live hyperlink — full transparency, zero hallucination risk without a paper trail.</p>
+      </div>
+    </div>
+    <div class="feature-item reveal reveal-delay-1">
+      <div class="feature-icon">🤝</div>
+      <div>
+        <h3>Engagement Prompts</h3>
+        <p>Each reply closes with a context-aware follow-up suggestion, keeping the conversation productive and guiding users toward what they actually need.</p>
+      </div>
+    </div>
+    <div class="feature-item reveal reveal-delay-2">
+      <div class="feature-icon">🏛️</div>
+      <div>
+        <h3>Locally Hosted LLM</h3>
+        <p>All inference runs on-premise at TRU. No data leaves the university's infrastructure — complete data sovereignty.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 4 · PIPELINE
+════════════════════════════════════════════════════════ -->
+<section id="pipeline">
+  <div class="section-inner">
+  <div class="section-label reveal">04 — Architecture</div>
+  <h2 class="reveal reveal-delay-1">RAG Pipeline</h2>
+  <p class="lead reveal reveal-delay-2">
+    A three-layer architecture: Ingestion builds and maintains the knowledge base; Inference handles live queries; Governance tracks usage and ensures accountability.
+  </p>
+  <div class="pipeline-img-wrap reveal reveal-delay-3">
+    <img src="pipeline_diag.png" alt="TRU AI Agent Platform — RAG Pipeline Diagram">
+  </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 5 · BOTTLENECKS
+════════════════════════════════════════════════════════ -->
+<section id="bottlenecks">
+  <div class="section-inner">
+  <div class="section-label reveal">05 — Bottlenecks</div>
+  <h2 class="reveal reveal-delay-1">Current Blockers &amp; In-Progress Items</h2>
+  <p class="lead reveal reveal-delay-2">
+    Four active challenges the team is tracking — each with a clear path forward.
+  </p>
+  <div class="bottleneck-grid">
+
+    <div class="bottleneck-card warn reveal reveal-delay-1">
+      <div class="b-num">01</div>
+      <h3>SharePoint Data Access</h3>
+      <p>Department data lives behind SharePoint authentication. We need a Copilot licence on the AI-Automation team email to scrape and ingest that content.</p>
+      <div class="b-status pending">Awaiting Licence Approval</div>
+    </div>
+
+    <div class="bottleneck-card reveal reveal-delay-2">
+      <div class="b-num">02</div>
+      <h3>Database Strategy</h3>
+      <p>Originally told Oracle DB — we've built 4 tables in Supabase (PostgreSQL-compatible, open source) ready to migrate. MongoDB access granted this morning (Nikita is onboarding it). Vector database contact is on vacation — follow-up pending.</p>
+      <div class="b-status in-progress">Supabase Live · MongoDB Onboarding · Vector DB Pending</div>
+    </div>
+
+    <div class="bottleneck-card warn reveal reveal-delay-3">
+      <div class="b-num">03</div>
+      <h3>Ollama Local Endpoint</h3>
+      <p>The local Ollama endpoint is not responding on the team workstation. A support ticket has been raised with IT — awaiting resolution before on-premise inference can be tested end-to-end.</p>
+      <div class="b-status blocked">IT Ticket Raised</div>
+    </div>
+
+    <div class="bottleneck-card reveal reveal-delay-4">
+      <div class="b-num">04</div>
+      <h3>SAML Authentication</h3>
+      <p>A working SAML simulation is in place. Clarification questions were sent this morning to the relevant team — awaiting responses to finalise the production-ready implementation.</p>
+      <div class="b-status pending">Simulation Live · Clarifications Pending</div>
+    </div>
+
+  </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 6 · OPEN QUESTIONS / CONCERNS
+════════════════════════════════════════════════════════ -->
+<section id="concerns">
+  <div class="section-inner">
+  <div class="section-label reveal">06 — Open Questions</div>
+  <h2 class="reveal reveal-delay-1">Items That Need Discussion</h2>
+  <p class="lead reveal reveal-delay-2">
+    Two strategic questions the team would like to table for input from stakeholders today.
+  </p>
+  <div class="concern-row">
+
+    <div class="concern-block reveal reveal-delay-1">
+      <div class="pill discuss">Needs Discussion</div>
+      <h3><span class="icon">🤔</span> Model Choice — Qwen 3.5 9B</h3>
+      <p style="font-size:0.95rem;">
+        We are currently running <strong>Qwen 3.5 9B</strong> — a relatively small but fast and secure model.
+        However, it is developed by a Chinese organisation. Before broader deployment, the team would like
+        institutional guidance on whether this is appropriate.
+      </p>
+      <br>
+      <p style="font-size:0.95rem;">
+        Mitigation so far: tested against common prompt injection and adversarial attacks with promising results.
+        The model will go through internal red-teaming before any external rollout.
+      </p>
+    </div>
+
+    <div class="concern-block reveal reveal-delay-2">
+      <div class="pill test">Needs Load Testing</div>
+      <h3><span class="icon">⚡</span> Inference Capacity</h3>
+      <p style="font-size:0.95rem;">
+        It is currently unclear whether the university's on-premise server can handle <strong>concurrent inference requests</strong>
+        at realistic student and faculty traffic volumes.
+      </p>
+      <br>
+      <p style="font-size:0.95rem;">
+        Next step: coordinate with the infrastructure team to establish expected traffic estimates,
+        then run load tests post-deployment to validate throughput and response latency under peak load.
+      </p>
+    </div>
+
+  </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 7 · NEXT STEPS
+════════════════════════════════════════════════════════ -->
+<section id="next">
+  <div class="section-inner">
+  <div class="section-label reveal">07 — Next Steps</div>
+  <h2 class="reveal reveal-delay-1">What Comes Next</h2>
+  <p class="lead reveal reveal-delay-2">
+    Immediate priorities to keep the project moving forward.
+  </p>
+  <div class="next-list">
+    <div class="next-item reveal reveal-delay-1">
+      <span class="n-num">1</span>
+      <p>Secure <strong>Copilot licence</strong> for AI-Automation team email to unlock SharePoint ingestion.</p>
+    </div>
+    <div class="next-item reveal reveal-delay-2">
+      <span class="n-num">2</span>
+      <p>Resolve <strong>Ollama endpoint</strong> issue with IT and validate local inference end-to-end.</p>
+    </div>
+    <div class="next-item reveal reveal-delay-3">
+      <span class="n-num">3</span>
+      <p>Complete <strong>SAML authentication</strong> integration once clarification responses arrive.</p>
+    </div>
+    <div class="next-item reveal reveal-delay-4">
+      <span class="n-num">4</span>
+      <p>Obtain <strong>Vector DB access</strong> from the department; follow up with contacts returning from vacation.</p>
+    </div>
+    <div class="next-item reveal" style="transition-delay:0.5s">
+      <span class="n-num">5</span>
+      <p>Conduct <strong>internal red-team testing</strong> on Qwen model — adversarial prompts, injection attacks, scope adherence — before any stakeholder-facing deployment.</p>
+    </div>
+    <div class="next-item reveal" style="transition-delay:0.6s">
+      <span class="n-num">6</span>
+      <p>Begin <strong>load testing</strong> with infrastructure team once Ollama is stable; set traffic expectations for production.</p>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════ -->
+<script>
+  // Progress bar
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (scrolled / total * 100) + '%';
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Side dot active state
+  const sections = document.querySelectorAll('section');
+  const dots = document.querySelectorAll('.side-dot');
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      document.getElementById(dot.dataset.target).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        dots.forEach(d => d.classList.remove('active'));
+        const active = document.querySelector(`.side-dot[data-target="${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => sectionObserver.observe(s));
+</script>
+</body>
+</html>
